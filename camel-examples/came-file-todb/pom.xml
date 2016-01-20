@@ -1,35 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.camel.examples</groupId>
-	<artifactId>camel-examples</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>camel-examples</name>
-	<description>Examples for components of camel</description>
-	<properties>
-		<jboss.fuse.bom.version>6.2.1.redhat-084</jboss.fuse.bom.version>
-		<maven-compiler-plugin-version>3.2</maven-compiler-plugin-version>
-		<maven-bundle-plugin-version>2.5.3</maven-bundle-plugin-version>
-		<maven-resources-plugin-version>2.7</maven-resources-plugin-version>
-		<maven-surefire-plugin-version>2.19.1</maven-surefire-plugin-version>
-		<maven.resources.plugin.encoding>UTF-8</maven.resources.plugin.encoding>
-		<camel-version>2.15.1.redhat-621084</camel-version>
-		<cxf-version>3.0.4.redhat-621084</cxf-version>
-		<java.source.version>1.7</java.source.version>
-		<java.target.version>1.7</java.target.version>
-	</properties>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.jboss.fuse.bom</groupId>
-				<artifactId>jboss-fuse-parent</artifactId>
-				<version>${jboss.fuse.bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<parent>
+		<groupId>com.camel.examples</groupId>
+		<artifactId>camel-examples</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>camel-file-todb</artifactId>
+	<packaging>bundle</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jaxb</artifactId>
+			
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-sql</artifactId>
+			
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.38</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-spring</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<repositories>
 		<repository>
 			<id>fusesource.releases</id>
@@ -53,7 +88,7 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
-		
+
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -109,12 +144,16 @@
 				<artifactId>camel-maven-plugin</artifactId>
 				<version>${camel-version}</version>
 			</plugin>
+				<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${maven-bundle-plugin-version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<Import-Package>*</Import-Package>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-  <modules>
-    <module>camel-spring-osgiprops</module>
-    <module>camel-propertyplaceholders</module>
-    <module>camel-envbased-props</module>
-    <module>came-file-todb</module>
-  </modules>
+
 </project>
