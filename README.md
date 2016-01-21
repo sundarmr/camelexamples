@@ -12,3 +12,4 @@ To Setup
 3. Import existing maven project
 4. navigate to the downloaded and exploded directory
 5. navigate to camel examples and import , you should have the projects in eclispe.
+6. Check the images under the cameexamples/data directory for visual aid.
