@@ -14,3 +14,6 @@ To Setup
 4. navigate to the downloaded and exploded directory 
 5. navigate to camelexamples under the camelexamples-master directory and import , you should have the projects in eclispe.
 6. Check the images under the cameexamples/data directory for visual aid.
+
+To make this work for 6.2.0 change the bom version to 6.2.0.redhat-123 and the cxf and camel versions according to the bom at 
+https://repository.jboss.org/nexus/content/groups/ea/org/jboss/fuse/bom/jboss-fuse-parent/6.2.0.redhat-123/
