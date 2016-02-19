@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+		xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close" scope="singleton">
+			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+			<property name="url" value="jdbc:mysql://127.0.0.1:3306/mydatabase" />
+			<property name="username" value="root" />
+			<property name="password" value="sundar" />
+
+		</bean>
+		<bean id="messageIdRepository"
+			class="org.apache.camel.processor.idempotent.jdbc.JdbcMessageIdRepository">
+			<constructor-arg ref="dataSource" />
+			<constructor-arg value="idempotentClass" />
+		</bean>
+
+		<camelContext xmlns="http://camel.apache.org/schema/spring">
+			<route>
+				<from uri="file:///Users/smunirat/apps/samplfile?noop=true" />
+				<log message="${body}" />
+				<camel:split streaming="true">
+					<camel:tokenize token="@"></camel:tokenize>
+					<camel:unmarshal>
+						<camel:csv />
+					</camel:unmarshal>
+					<camel:setHeader headerName="messageId">
+						<!-- Making the first two columns in the file as idempotent Key -->
+						<camel:simple>${body[0][0]}${body[0][1]}</camel:simple>
+					</camel:setHeader>
+					<camel:idempotentConsumer
+						messageIdRepositoryRef="messageIdRepository" skipDuplicate="true">
+						<camel:header>messageId</camel:header>
+						<camel:filter>
+							<camel:exchangeProperty>CamelDuplicateMessage</camel:exchangeProperty>
+							<log message="Duplicate Records : ${body}" />
+							<stop />
+						</camel:filter>
+						<to uri="log:sundar?showAll=true&amp;multiline=true" />
+					</camel:idempotentConsumer>
+				</camel:split>
+			</route>
+		</camelContext>
+	</beans>
+
+</beans>
