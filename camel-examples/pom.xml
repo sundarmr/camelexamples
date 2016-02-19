@@ -116,5 +116,6 @@
     <module>camel-propertyplaceholders</module>
     <module>camel-envbased-props</module>
     <module>came-file-todb</module>
+    <module>idempotent-consumer</module>
   </modules>
 </project>
