@@ -14,13 +14,13 @@ public class MultipleFromRouteBuilder extends RouteBuilder {
 		.to("direct:a")
 		.end();
 
-		from("timer:foo1?repeatCount=1&delay=1000")
+		from("timer:foo1?repeatCount=1&delay=2000")
 		.routeId("secondRoute")
 		.setBody(simple("sundar1"))
 		.to("direct:a")
 		.end();
 		
-		from("timer:foo2?repeatCount=1&delay=1000")
+		from("timer:foo2?repeatCount=1&delay=3000")
 		.routeId("thirdRoute")
 		.setBody(simple("sundar2"))
 		.to("direct:a")
