@@ -28,7 +28,7 @@
 
 		<camelContext xmlns="http://camel.apache.org/schema/spring">
 			<route>
-				<from uri="file://data?noop=true"/>
+				<from uri="file://src/data?noop=true"/>
 				<log message="${body}" />
 				<camel:split streaming="true">
 					<camel:tokenize token="@"></camel:tokenize>
