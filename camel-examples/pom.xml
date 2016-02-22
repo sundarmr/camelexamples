@@ -117,5 +117,6 @@
     <module>camel-envbased-props</module>
     <module>came-file-todb</module>
     <module>idempotent-consumer</module>
+    <module>multiple-routes</module>
   </modules>
 </project>
