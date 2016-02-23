@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd 
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+	<!--  Just Throws an exception of type MyException which is a custom Exception -->
+	<bean id="myBean" class="com.camel.examples.MyExceptionClass" />
+	<camel:errorHandler id="defaultErrorHandler" type="DefaultErrorHandler">
+		<camel:redeliveryPolicy maximumRedeliveries="3"
+			redeliveryDelay="1000" logStackTrace="false" />
+	</camel:errorHandler>
+	<camel:camelContext>
+		<camel:route>
+			<camel:from uri="timer:foo?repeatCount=10&amp;period=10000" />
+			<camel:setBody>
+				<camel:constant>Sundar</camel:constant>
+			</camel:setBody>
+			<camel:loadBalance>
+				<camel:circuitBreaker threshold="2" halfOpenAfter="1000">
+					<camel:exception>java.lang.Exception</camel:exception>
+				</camel:circuitBreaker>
+				<camel:to uri="direct:a" />
+			</camel:loadBalance>
+		</camel:route>
+		<camel:route id="myroute" errorHandlerRef="defaultErrorHandler">
+			<camel:from uri="direct:a" />
+			<camel:process ref="myBean"></camel:process>
+			<camel:log message="${exception}]" />
+		</camel:route>
+	</camel:camelContext>
+
+</beans>
