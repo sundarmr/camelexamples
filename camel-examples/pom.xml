@@ -112,12 +112,13 @@
 		</plugins>
 	</build>
   <modules>
-   <!-- <module>camel-spring-osgiprops</module>
+   <module>camel-spring-osgiprops</module>
     <module>camel-propertyplaceholders</module>
     <module>camel-envbased-props</module>
     <module>came-file-todb</module>
     <module>idempotent-consumer</module>
-    <module>multiple-routes</module>-->
+    <module>multiple-routes</module>
     <module>camel-circuitbreaker</module>
+    <module>database-locker</module>
   </modules>
 </project>
